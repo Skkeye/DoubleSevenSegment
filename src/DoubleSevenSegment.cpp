@@ -21,8 +21,8 @@ DoubleSevenSegment::DoubleSevenSegment(	int pinDisplayUnits,
 																					int pinE,
 																					int pinF,
 																					int pinG,
-																					bool segmentOnLogicLevel = 0,
-																					bool commonOnLogicLevel = 0)
+																					bool segmentOnLogicLevel,
+																					bool commonOnLogicLevel)
 {
 	_pinDisplayUnits = pinDisplayUnits;
 	_pinDisplayTens = pinDisplayTens;
@@ -50,7 +50,7 @@ DoubleSevenSegment::DoubleSevenSegment(	int pinDisplayUnits,
 
 // Method for displaying a 2 digit number.
 // optionnal : Set a display time in ms
-void DoubleSevenSegment::show(int num, int ms = 1)
+void DoubleSevenSegment::show(int num, int ms)
 {
 	// Truncate the number to a number between 0 and 99 inclusive and keep it positive
 	num = abs(num) % 100;
@@ -76,7 +76,7 @@ void DoubleSevenSegment::show(int num, int ms = 1)
 		digitalWrite(_pinDisplayTens, _commonOnLogicLevel);
 		for(int i = 0; i < 7; i++)
 		{
-			digitalWrite(_pins[i], !_segmentOnLogicLevel ^ _decodeLookup[num % 10][i]);
+			digitalWrite(_pins[i], !_segmentOnLogicLevel ^ _decodeLookup[(num / 10) % 10][i]);
 		}
 		delayMicroseconds(500);
 	}
